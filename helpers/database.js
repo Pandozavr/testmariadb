@@ -10,7 +10,7 @@ const pool = mariadb.createPool({
 
 
 //Connect and check errors
-pool.getConnection((err, connection) => {
+/*pool.getConnection((err, connection) => {
     if(err){
         if(err.code === "PROTOCOL_CONNECTION_LOST"){
             console.error("Database connection lost")
@@ -23,6 +23,6 @@ pool.getConnection((err, connection) => {
         }
     } if(connection) connection.release();
     return;
-});
+});*/
 
 module.exports = pool;
