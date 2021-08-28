@@ -12,8 +12,13 @@ class AuthService {
         const candidate = await pool.query(sqlSearchDuplicateUser, email);
         if(candidate["0"] == undefined){
             const encryptPass = await bcrypt.hash(password, 10);
+
             const sqlInsertUser = "INSERT INTO user (email, password, user_name) VALUES (?, ?, ?)";
             const result = await pool.query(sqlInsertUser, [email, encryptPass, user_name]);
+
+            const sqlInsertDefaultAvatar = "INSERT INTO user_avatar (file_name, user_id) VALUES (?, ?)";
+            const defaultAvatar = await pool.query(sqlInsertDefaultAvatar, ["none", result.insertId]);
+
             const payload = {id: result.insertId, email: email};
             const tokens = tokenService.generateTokens(payload);
             await tokenService.saveToken(payload.id, tokens.refreshToken);

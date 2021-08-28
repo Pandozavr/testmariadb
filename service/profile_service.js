@@ -14,26 +14,13 @@ class ProfileService {
         if (user["0"] == undefined) {
             throw ApiError.BadRequest(`Пользователь не авторизован`)
         } else if (user["0"].user_id) {
-            //проверяем есть ли у пользователя аватарка
-            const sqlCheckAvaThisUser = "SELECT user_id FROM user_avatar WHERE user_id=?";
-            const checkRes = await pool.query(sqlCheckAvaThisUser, user["0"].user_id);
-            if (checkRes["0"] == undefined) {
-                //если нету - добавляем
-                const sqlInsertImg = "INSERT INTO user_avatar (file_name, user_id) VALUES (?, ?)";
-                const result = await pool.query(sqlInsertImg, [imgName, user["0"].user_id]);
-                const payload = {
-                    avaUrl: `http://localhost:3001/${imgName}`
-                };
-                return payload
-            } else {
-                //если есть, то обновляем
-                const sqlUpdateAvatar = "UPDATE user_avatar SET file_name=? WHERE user_id=?";
-                const updAvatar = await pool.query(sqlUpdateAvatar, [imgName, user["0"].user_id]);
-                const payload = {
-                    avaUrl: `http://localhost:3001/${imgName}`
-                };
-                return payload
-            }
+            const sqlUpdateAvatar = "UPDATE user_avatar SET file_name=? WHERE user_id=?";
+            const updAvatar = await pool.query(sqlUpdateAvatar, [imgName, user["0"].user_id]);
+            const payload = {
+                avaUrl: `http://localhost:3001/${imgName}`
+            };
+            return payload
+
         }
     }
 
@@ -82,6 +69,12 @@ class ProfileService {
         const sqlDeletePost = "delete from user_post where post_id=?";
         const data = await pool.query(sqlDeletePost, postId);
         return {result: "post was delete"}
+    }
+
+    async updatePost(postId, postText) {
+        const sqlUpdatePost = "UPDATE user_post SET post_text=? WHERE post_id=?";
+        const data = await pool.query(sqlUpdatePost, [postText, postId]);
+        return {result: "post was update"}
     }
 }
 
