@@ -15,8 +15,12 @@ router.post("/register",
 router.post("/login", AuthController.login);
 router.post("/logout", AuthController.logout);
 router.get("/refresh", AuthController.refresh);
+
 router.post("/avatar", upload.single('profileImg'), profileController.uploadAvatar);
+
 router.post("/post", profileController.sendPost);
+router.delete("/post", profileController.deletePost);
+
 router.get("/profile", profileController.getProfileData);
 router.get("/userposts", profileController.getPosts);
 
