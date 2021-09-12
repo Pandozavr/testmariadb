@@ -45,7 +45,6 @@ class ProfileController {
     async deletePost(req, res, next){
         try{
             const {postId} = req.query;
-            console.log()
             const data = await profileService.deletePost(postId);
             return res.status(200).json(data)
         } catch(e) {

@@ -2,13 +2,40 @@
 // также вызываются функции сторонних сервисов
 const pool = require("../helpers/database");
 
+const sqlFindUserByToken = "SELECT user_id FROM user_token WHERE refresh_token=?";
+
 class UsersService {
 
-    async getUsers() {
-        const sqlSelectAllUsers = "select u.user_name, u.email, ua.file_name from user u join user_avatar ua on u.user_id = ua.user_id";
-        const users = await pool.query(sqlSelectAllUsers);
-        const payload = {users};
+    async getUsers(refreshToken) {
+        const user = await pool.query(sqlFindUserByToken, refreshToken);
+        const sqlSelectFriends = "select user_friend_id from user_friend uf where user_id = ?";
+        const friends = await pool.query(sqlSelectFriends, user["0"].user_id);
+        const sqlSelectAllUsers = "select u.user_id, u.isFriend, u.user_name, u.email, ua.file_name from user u join user_avatar ua on u.user_id = ua.user_id";
+        const allUsers = await pool.query(sqlSelectAllUsers);
+
+        for(let i = 0; i < friends.length; i++){
+            let friendID = friends[i].user_friend_id;
+            for(let i = 0; i < allUsers.length; i++){
+                if(friendID == allUsers[i].user_id){
+                    allUsers[i].isFriend = 1;
+                }
+            }
+        }
+
+        const payload = {allUsers};
         return payload
+    }
+    async follow(refreshToken, friendId) {
+        const user = await pool.query(sqlFindUserByToken, refreshToken);
+        const sqlInsertFriend = "INSERT INTO user_friend (user_id, user_friend_id) VALUES (?, ?)";
+        const result = await pool.query(sqlInsertFriend, [user["0"].user_id, friendId]);
+        return {result: "follow success"}
+    }
+    async unfollow(refreshToken, friendId) {
+        const user = await pool.query(sqlFindUserByToken, refreshToken);
+        const sqlDeleteFriend = "delete from user_friend where user_id=? and user_friend_id=?";
+        const result = await pool.query(sqlDeleteFriend, [user["0"].user_id, friendId]);
+        return {result: "unFollow success"}
     }
 }
 

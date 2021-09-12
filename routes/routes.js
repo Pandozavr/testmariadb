@@ -25,5 +25,7 @@ router.delete("/post", profileController.deletePost);
 router.put("/post", profileController.updatePost);
 
 router.get("/users", userController.getUsers);
+router.get("/follow", userController.follow);
+router.get("/unfollow", userController.unfollow);
 
 module.exports = router;

@@ -6,12 +6,34 @@ class UserController {
 
     async getUsers(req,res,next){
         try{
-            const data = await userService.getUsers();
+            const {refreshToken} = req.cookies;
+            const data = await userService.getUsers(refreshToken);
             return res.status(200).json(data)
         }catch (e) {
             next(e)
         }
     }
+    async follow(req,res,next){
+        try{
+            const {refreshToken} = req.cookies;
+            const {friendId} = req.query;
+            const data = await userService.follow(refreshToken, friendId);
+            return res.status(200).json(data)
+        } catch(e) {
+            next(e)
+        }
+    }
+    async unfollow(req,res,next){
+        try{
+            const {refreshToken} = req.cookies;
+            const {friendId} = req.query;
+            const data = await userService.unfollow(refreshToken, friendId);
+            return res.status(200).json(data)
+        } catch(e) {
+            next(e)
+        }
+    }
+
 }
 
 module.exports = new UserController();
