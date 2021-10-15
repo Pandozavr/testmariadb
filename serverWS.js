@@ -5,9 +5,12 @@ const wss = new ws.Server({
     }, () => console.log("Server started on port 5000")
 );
 
+let n = 0;
+
 wss.on("connection", function connection (ws) {
     ws.on("message", function (message) {
         message = JSON.parse(message);
+        message.id = n++;
         switch (message.event) {
             case "message":
                 broadcastMessage(message)
