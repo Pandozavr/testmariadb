@@ -1,9 +1,9 @@
 const multer = require("multer");
-const uuid = require("uuid")
+const uuid = require("uuid");
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {
-        cb(null, "public")
+        cb(null, "public/ava")
     },
     filename(req, file, cb) {
         cb(null, `ava-${uuid.v4()}-${file.originalname}`)
@@ -18,6 +18,6 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-const upload = multer({storage, fileFilter});
+const uploadAva = multer({storage, fileFilter});
 
-module.exports = upload;
+module.exports = uploadAva;

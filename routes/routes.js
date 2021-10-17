@@ -5,8 +5,10 @@ const router = express.Router();
 const AuthController = require("../controller/authController");
 const profileController = require("../controller/profileController");
 const userController = require("../controller/userController");
+const musicController = require("../controller/musicController");
 const {body} = require('express-validator');
-const upload = require("../middlewares/uploadMiddleware");
+const uploadAva = require("../middlewares/uploadAvaMiddleware");
+const uploadMus = require("../middlewares/uploadMusMiddleware");
 
 router.post("/register",
     body("email").isEmail(),
@@ -16,7 +18,7 @@ router.post("/login", AuthController.login);
 router.post("/logout", AuthController.logout);
 router.get("/refresh", AuthController.refresh);
 
-router.post("/avatar", upload.single('profileImg'), profileController.uploadAvatar);
+router.post("/avatar", uploadAva.single('profileImg'), profileController.uploadAvatar);
 router.get("/profile", profileController.getProfileData);
 router.get("/userposts", profileController.getPosts);
 
@@ -27,5 +29,7 @@ router.put("/post", profileController.updatePost);
 router.get("/users", userController.getUsers);
 router.get("/follow", userController.follow);
 router.get("/unfollow", userController.unfollow);
+
+router.post("/music", uploadMus.single('track'), musicController.addTrack);
 
 module.exports = router;

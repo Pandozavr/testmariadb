@@ -12,7 +12,8 @@ const app = express();
 
 /*Middleware*///////////////////////////////
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('public/ava'));
+app.use(express.static('public/mus'));
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(cors({
