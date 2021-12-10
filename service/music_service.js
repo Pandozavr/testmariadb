@@ -4,10 +4,24 @@ const pool = require("../helpers/database");
 
 class MusicService {
 
-    async addTrack() {
-        const sqlInsertTrack = "INSERT INTO user_friend (user_id, user_friend_id) VALUES (?, ?)";
-        const result = await pool.query(sqlInsertFriend, [user["0"].user_id, friendId]);
-        return {result: "follow success"}
+    async addTrack(fileName, trackName, artist) {
+        const sqlInsertTrack = "INSERT INTO music (track_name, artist, file_name) VALUES (?,?,?)";
+        const result = await pool.query(sqlInsertTrack, [trackName, artist, fileName]);
+        const payload = {
+            result: "track download success",
+            trackName: trackName
+        };
+        return payload
+    }
+
+    async getTracks() {
+        const sqlSelectTracks = "SELECT * FROM music";
+        const result = await pool.query(sqlSelectTracks);
+        const payload = {
+            result: "get tracks success",
+            data: result
+        }
+        return payload
     }
 }
 

@@ -12,7 +12,6 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    console.log(file)
     if(file.mimetype === 'audio/mpeg') {
         cb(null, true)
     } else {

@@ -6,9 +6,20 @@ class MusicController {
 
     async addTrack(req,res,next){
         try{
-            /*const data = await musicService.addTrack();*/
-            return res.status(200).json({result: "success"})
+            const fileName = req.file.filename;
+            const {trackName, artist} = req.body;
+            const data = await musicService.addTrack(fileName, trackName, artist);
+            return res.status(200).json(data)
         }catch (e) {
+            next(e)
+        }
+    }
+
+    async getTrack(req, res, next){
+        try{
+            const data = await musicService.getTracks();
+            return res.status(200).json(data)
+        } catch(e) {
             next(e)
         }
     }

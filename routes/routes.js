@@ -31,5 +31,6 @@ router.get("/follow", userController.follow);
 router.get("/unfollow", userController.unfollow);
 
 router.post("/music", uploadMus.single('track'), musicController.addTrack);
+router.get("/music", musicController.getTrack);
 
 module.exports = router;
