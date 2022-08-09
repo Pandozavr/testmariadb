@@ -40,9 +40,10 @@ class ProfileService {
         if (user["0"] == undefined) {
             throw ApiError.BadRequest(`Пользователь не авторизован`)
         }
-        const sqlUserData = "select u.user_name, u.email, ua.file_name from user u join user_avatar ua on u.user_id = ua.user_id where u.user_id=?";
+        const sqlUserData = "select u.user_id, u.user_name, u.email, ua.file_name from user u join user_avatar ua on u.user_id = ua.user_id where u.user_id=?";
         const userData = await pool.query(sqlUserData, user["0"].user_id);
         const payload = {
+            userID: userData["0"].user_id,
             userName: userData["0"].user_name,
             email: userData["0"].email,
             avaUrl: `http://localhost:3001/${userData["0"].file_name}`

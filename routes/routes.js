@@ -1,5 +1,5 @@
 // здесь указано по каким эндпоинтам можно обращаться с клиента
-// внутри каждого указаны дополнительные прослойки/валидации и соответствующая функция контроллера
+// внутри каждого указаны дополнительные прослойки/валидации и соответствующий метод контроллера
 const express = require("express");
 const router = express.Router();
 const AuthController = require("../controller/authController");
@@ -27,6 +27,7 @@ router.delete("/post", profileController.deletePost);
 router.put("/post", profileController.updatePost);
 
 router.get("/users", userController.getUsers);
+router.get("/user", userController.getUserData);
 router.get("/follow", userController.follow);
 router.get("/unfollow", userController.unfollow);
 

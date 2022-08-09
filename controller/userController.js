@@ -13,6 +13,15 @@ class UserController {
             next(e)
         }
     }
+    async getUserData(req, res, next){
+        try {
+            const {userId} = req.query;
+            const data = await userService.getUserData(userId);
+            return res.status(200).json(data)
+        } catch (e) {
+            next(e)
+        }
+    }
     async follow(req,res,next){
         try{
             const {refreshToken} = req.cookies;

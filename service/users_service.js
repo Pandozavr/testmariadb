@@ -21,8 +21,19 @@ class UsersService {
                 }
             }
         }
-
         const payload = {allUsers};
+        return payload
+    }
+    async getUserData(userId) {
+        const sqlUserDataProfile = "select u.user_name, u.email, ua.file_name from user u join user_avatar ua on u.user_id = ua.user_id where u.user_id=?";
+        const UserDataProfile = await pool.query(sqlUserDataProfile, userId);
+        const sqlPostsData = "select post_id, post_text from user_post where user_id=?";
+        const postsData = await pool.query(sqlPostsData, userId);
+        const payload = {
+            posts: postsData,
+            ueser_name: UserDataProfile["0"].user_name,
+            avaUrl: `http://localhost:3001/${UserDataProfile["0"].file_name}`
+        };
         return payload
     }
     async follow(refreshToken, friendId) {
