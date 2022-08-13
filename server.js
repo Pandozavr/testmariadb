@@ -16,10 +16,10 @@ app.use(express.static('public/ava'));
 app.use(express.static('public/mus'));
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
-app.use(cors({
-    credentials: true,
-    origin: "localhost:3000"
-}));
+// app.use(cors({
+//     credentials: true,
+//     origin: "45.147.178.191:3000"
+// }));
 app.use("/api",userRouter);
 app.use(errorMiddleware);
 

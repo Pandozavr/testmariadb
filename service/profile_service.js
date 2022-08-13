@@ -17,7 +17,7 @@ class ProfileService {
             const sqlUpdateAvatar = "UPDATE user_avatar SET file_name=? WHERE user_id=?";
             const updAvatar = await pool.query(sqlUpdateAvatar, [imgName, user["0"].user_id]);
             const payload = {
-                avaUrl: `http://localhost:3001/${imgName}`
+                avaUrl: `http://45.147.178.191:3001/${imgName}`
             };
             return payload
 
@@ -46,7 +46,7 @@ class ProfileService {
             userID: userData["0"].user_id,
             userName: userData["0"].user_name,
             email: userData["0"].email,
-            avaUrl: `http://localhost:3001/${userData["0"].file_name}`
+            avaUrl: `http://45.147.178.191:3001/${userData["0"].file_name}`
         };
         return payload;
     }

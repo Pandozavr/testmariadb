@@ -32,7 +32,7 @@ class UsersService {
         const payload = {
             posts: postsData,
             ueser_name: UserDataProfile["0"].user_name,
-            avaUrl: `http://localhost:3001/${UserDataProfile["0"].file_name}`
+            avaUrl: `http://45.147.178.191:3001/${UserDataProfile["0"].file_name}`
         };
         return payload
     }

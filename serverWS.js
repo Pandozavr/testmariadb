@@ -3,7 +3,7 @@ const uuid = require("uuid");
 
 const wss = new ws.Server({
         port: 5000
-    }, () => console.log("Server started on port 5000_")
+    }, () => console.log("Server started on port 5000")
 );
 
 let n = 0;
